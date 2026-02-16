@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +16,11 @@ public class PlayerMovement : MonoBehaviour
     public float friction = 10f; // How quickly the player stops when no input 
     public AnimationCurve accelerationCurve = AnimationCurve.Linear(0, 1, 1, 0); // High at 0 speed, low at max speed
     [SerializeField] float gravity;
+
+    [Header("Jump Buffering")]
+    public float jumpBufferTime = 0.1f;
+    private float jumpBufferCounter;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         ProcessingJump();
+        ReadMovementInput()
     }
 
     private void ProcessingJump()
@@ -70,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.Normalize();
 
         // Get horizontal velocity only (ignore Y component) 
-        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         float currentSpeed = horizontalVelocity.magnitude;
 
         if (moveDirection != Vector3.zero)
@@ -100,8 +105,17 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 // Completely stop when speed is very low
-                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+                rb.velocity = 
+                    new Vector3(0, rb.velocity.y, 0);
             }
+        }
+        Vector3 clampedHorizontal = new Vector3(rb.Velocity.x, 0f, rb.Velocity.1);
+
+        if (clapmedHorizontal.magnitude > maxSpeed)
+        {
+            Vector3 capped = clampedHorizontal.normalized * maxSpeed;
+
+            rb.Velocity = new Vector3(capped.x, rb.velocity.y, capped.z);
         }
     }
 
