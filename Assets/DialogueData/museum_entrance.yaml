@@ -1,0 +1,20 @@
+title: "Museum Entrance"
+lines:
+  - id: "start"
+    speaker: "Guard"
+    text: "Stop! The museum is closed. What are you doing here?"
+    
+  - speaker: "Narrator"
+    text: "You need to choose how to respond to the guard."
+    choices_from_story_manager: true
+    story_location: "MuseumEntrance"
+    
+  - id: "sneak_success"
+    speaker: "Narrator"
+    text: "You successfully sneak past the guard into the museum."
+    trigger: "enter_museum"
+    
+  - id: "caught"
+    speaker: "Guard"
+    text: "Nice try! You're coming with me."
+    trigger: "game_over"
