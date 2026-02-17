@@ -306,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PanelSettings: {fileID: 11400000, guid: 5085b9ab17aa1f419bd367c9fd880404, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 104e3f4126483f0a195ed58f2fe950bc, type: 3}
+  sourceAsset: {fileID: 9197481963319205126, guid: ce94917baeba6972d8529acacb22ab75, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -811,7 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dcbf70bd7ae441aa82c9b7c4674f65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScenePath: Assets/DialogueData/test_dialogue.yaml
+  currentScenePath: Assets/test_dialogue.yaml
 --- !u!4 &1510457876
 Transform:
   m_ObjectHideFlags: 0
@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugMode: 1
   testKey: 116
-  testDialoguePath: Assets/DialogueData/test_dialogue.yaml
+  testDialoguePath: test_dialogue
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -7,3 +7,6 @@ lines:
   - speaker: "Player"
     text: "I was just leaving leaves..."
     trigger: "start_stealth_mode"
+
+  - speaker: "Guard"
+    text: "Come with me."
