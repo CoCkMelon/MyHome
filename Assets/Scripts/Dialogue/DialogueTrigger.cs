@@ -19,14 +19,29 @@ public class DialogueTrigger : MonoBehaviour
 
         if (!string.IsNullOrEmpty(dialogueScenePath))
         {
-            DialogueManager.Instance.LoadAndStartScene(dialogueScenePath);
-            shouldDestroy = true;
+            if (DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.LoadAndStartScene(dialogueScenePath);
+                shouldDestroy = true;
+            }
+            else
+            {
+                Debug.LogError("DialogueTrigger: DialogueManager.Instance is null!");
+            }
         }
         if (!string.IsNullOrEmpty(triggerId))
         {
-            TriggerManager.Instance.Trigger(triggerId, null);
+            if (TriggerManager.Instance != null)
+            {
+                TriggerManager.Instance.Trigger(triggerId, null);
+            }
+            else
+            {
+                Debug.LogError("DialogueTrigger: TriggerManager.Instance is null!");
+            }
         }
-        if(shouldDestroy && destroyOnTrigger) {
+        if (shouldDestroy && destroyOnTrigger)
+        {
             Destroy(gameObject);
         }
     }

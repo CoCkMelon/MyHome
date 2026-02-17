@@ -232,7 +232,8 @@ public class DialogueUIController : MonoBehaviour
 
     public void HideDialogue()
     {
-        dialogueRoot.style.display = DisplayStyle.None;
+        if (dialogueRoot != null)
+            dialogueRoot.style.display = DisplayStyle.None;
     }
 
     /// <summary>
@@ -283,11 +284,14 @@ public class DialogueUIController : MonoBehaviour
 
     public void HideInteractionPrompt()
     {
-        interactionPrompt.style.display = DisplayStyle.None;
+        if (interactionPrompt != null)
+            interactionPrompt.style.display = DisplayStyle.None;
     }
 
     public void ShowSpeechBubble(string text, Transform target, Vector3 offset)
     {
+        if (speechBubbleContainer == null || bubbleText == null) return;
+        
         speechBubbleContainer.style.display = DisplayStyle.Flex;
         bubbleText.text = text;
         StartCoroutine(UpdateSpeechBubblePosition(target, offset));
@@ -295,7 +299,8 @@ public class DialogueUIController : MonoBehaviour
 
     public void HideSpeechBubble()
     {
-        speechBubbleContainer.style.display = DisplayStyle.None;
+        if (speechBubbleContainer != null)
+            speechBubbleContainer.style.display = DisplayStyle.None;
         StopAllCoroutines(); // Stop position updates
     }
 

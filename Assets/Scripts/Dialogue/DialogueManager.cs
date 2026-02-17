@@ -111,7 +111,7 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log(line.text);
         }
         
-        if (!string.IsNullOrEmpty(line.trigger))
+        if (!string.IsNullOrEmpty(line.trigger) && TriggerManager.Instance != null)
             TriggerManager.Instance.Trigger(line.trigger, line);
     }
 

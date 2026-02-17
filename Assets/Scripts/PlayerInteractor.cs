@@ -54,6 +54,8 @@ public class PlayerInteractor : MonoBehaviour
 
     void PerformInteraction()
     {
+        if (playerCamera == null) return;
+        
         // Raycast from center of screen
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;

@@ -3,142 +3,179 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody rb;
-    public float strength = 25f; // Multiplier for strength
-    public float jumpForce = 25f; // Multiplier for jump 
-    public float groundDistance = 1f; // Distance to the ground that still allows jumping 
-    public LayerMask groundMask; // Assign that in inspector to the wanted Layer for detecting ground 
+    [Header("Movement")]
+    public float moveSpeed = 5f;
+    public float acceleration = 50f;
+    public float deceleration = 30f;
+    public float maxSpeed = 8f;
+
+    [Header("Jump")]
+    public float jumpForce = 8f;
+    public float groundCheckDistance = 0.1f;
+    [Tooltip("Set this to layers that count as ground (NOT the Player layer!)")]
+    public LayerMask groundMask;
+
+    [Header("Physics")]
+    public float airControl = 0.3f;
+    public float gravity = 20f;
+
+    [Header("References")]
+    public Transform cameraTransform;
+
+    private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
+    private Vector2 moveInput;
+    private bool jumpPressed;
     private bool isGrounded;
-    public Transform cameraTransform; // Add camera in inspector 
+    private float capsuleRadius;
+    private float capsuleHeight;
 
-    [Header("Movement Settings")]
-    public float maxSpeed = 10f; // Maximum horizontal speed
-    public float friction = 10f; // How quickly the player stops when no input 
-    public AnimationCurve accelerationCurve = AnimationCurve.Linear(0, 1, 1, 0); // High at 0 speed, low at max speed
-    [SerializeField] float gravity;
-
-    [Header("Jump Buffering")]
-    public float jumpBufferTime = 0.1f;
-    private float jumpBufferCounter;
-    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Physics.gravity = gravity * Physics.gravity;
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+        if (capsuleCollider != null)
+        {
+            capsuleRadius = capsuleCollider.radius;
+            capsuleHeight = capsuleCollider.height;
+        }
+
+        if (cameraTransform == null)
+        {
+            Transform cam = transform.Find("Main Camera");
+            if (cam != null)
+            {
+                cameraTransform = cam;
+            }
+        }
     }
 
-    // Update is called once per frame 
     void Update()
     {
-        ProcessingJump();
-        ReadMovementInput()
-    }
-
-    private void ProcessingJump()
-    {
-        // Raycast version of ground check 
-        isGrounded = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit, groundDistance + 0.1f, groundMask);
-
-
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        ReadInput();
+        CheckGrounded();
     }
 
     void FixedUpdate()
     {
-        Movement();
+        ApplyMovement();
+        ApplyJump();
     }
 
-    private void Movement()
+    private void ReadInput()
     {
-        Vector3 moveDirection = Vector3.zero;
-        if (Keyboard.current.wKey.isPressed)
-        {
-            moveDirection += cameraTransform.forward;
-        }
-        if (Keyboard.current.sKey.isPressed)
-        {
-            moveDirection -= cameraTransform.forward;
-        }
-        if (Keyboard.current.aKey.isPressed)
-        {
-            moveDirection -= cameraTransform.right;
-        }
-        if (Keyboard.current.dKey.isPressed)
-        {
-            moveDirection += cameraTransform.right;
-        }
+        var keyboard = Keyboard.current;
+        if (keyboard == null) return;
 
-        moveDirection.y = 0f;
-        moveDirection.Normalize();
+        float horizontal = 0f;
+        float vertical = 0f;
 
-        // Get horizontal velocity only (ignore Y component) 
-        Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        float currentSpeed = horizontalVelocity.magnitude;
+        if (keyboard.wKey.isPressed) vertical += 1f;
+        if (keyboard.sKey.isPressed) vertical -= 1f;
+        if (keyboard.aKey.isPressed) horizontal -= 1f;
+        if (keyboard.dKey.isPressed) horizontal += 1f;
 
-        if (moveDirection != Vector3.zero)
+        moveInput = new Vector2(horizontal, vertical).normalized;
+
+        if (keyboard.spaceKey.wasPressedThisFrame)
         {
-            // Calculate speed in the movement direction
-            float speedInMoveDirection = Vector3.Dot(horizontalVelocity, moveDirection);
-            speedInMoveDirection = Mathf.Max(0, speedInMoveDirection); // Only consider forward speed
-
-            // Calculate force multiplier based on speed in movement direction
-            float forceMultiplier = accelerationCurve.Evaluate(Mathf.Clamp01(speedInMoveDirection / maxSpeed));
-            rb.AddForce(moveDirection * strength * forceMultiplier, ForceMode.Force);
-
-            // Resist perpendicular movement - apply friction to velocity not aligned with moveDirection 
-            Vector3 perpVelocity = horizontalVelocity - Vector3.Project(horizontalVelocity, moveDirection);
-            if (perpVelocity.magnitude > 0.1f)
-            {
-                rb.AddForce(-perpVelocity * friction, ForceMode.Force);
-            }
-        }
-        else
-        {
-            // Apply friction to all movement when no input 
-            if (currentSpeed > 0.1f)
-            {
-                rb.AddForce(-horizontalVelocity * friction, ForceMode.Force);
-            }
-            else
-            {
-                // Completely stop when speed is very low
-                rb.velocity = 
-                    new Vector3(0, rb.velocity.y, 0);
-            }
-        }
-        Vector3 clampedHorizontal = new Vector3(rb.Velocity.x, 0f, rb.Velocity.1);
-
-        if (clapmedHorizontal.magnitude > maxSpeed)
-        {
-            Vector3 capped = clampedHorizontal.normalized * maxSpeed;
-
-            rb.Velocity = new Vector3(capped.x, rb.velocity.y, capped.z);
+            jumpPressed = true;
         }
     }
 
-    private void OnDrawGizmos()
+    private void CheckGrounded()
     {
-        float radius = 0.2f;
-        float maxDist = groundDistance + 0.1f;
-        Vector3 origin = transform.position;
-        Vector3 end = origin + Vector3.down * maxDist;
+        if (capsuleCollider == null)
+        {
+            // Fallback raycast if no capsule collider
+            isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f, groundMask);
+            return;
+        }
 
-        // Draw the spherecast as two wire spheres and a line
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(origin, radius);
-        Gizmos.DrawWireSphere(end, radius);
+        // Cast a small sphere downward from bottom of capsule
+        Vector3 origin = transform.position + Vector3.down * (capsuleHeight * 0.5f - capsuleRadius - 0.01f);
+        
+        // Use SphereCast going down - won't detect player's own collider
+        isGrounded = Physics.SphereCast(
+            origin,
+            capsuleRadius * 0.9f,  // Slightly smaller to avoid edge cases
+            Vector3.down,
+            out RaycastHit hit,
+            groundCheckDistance,
+            groundMask,
+            QueryTriggerInteraction.Ignore
+        );
+    }
+
+    private void ApplyMovement()
+    {
+        if (cameraTransform == null) return;
+
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 targetDirection = (forward * moveInput.y + right * moveInput.x).normalized;
+        Vector3 currentHorizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+        float currentControl = isGrounded ? 1f : airControl;
+
+        if (targetDirection.magnitude > 0.1f)
+        {
+            Vector3 targetVelocity = targetDirection * moveSpeed;
+            Vector3 velocityChange = (targetVelocity - currentHorizontalVelocity) * currentControl;
+            velocityChange = Vector3.ClampMagnitude(velocityChange, acceleration * Time.fixedDeltaTime);
+
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
+        else if (isGrounded)
+        {
+            Vector3 decel = -currentHorizontalVelocity.normalized * deceleration * Time.fixedDeltaTime;
+            if (decel.magnitude > currentHorizontalVelocity.magnitude)
+            {
+                decel = -currentHorizontalVelocity;
+            }
+            rb.AddForce(decel, ForceMode.VelocityChange);
+        }
+
+        Vector3 clampedHorizontal = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        if (clampedHorizontal.magnitude > maxSpeed)
+        {
+            clampedHorizontal = clampedHorizontal.normalized * maxSpeed;
+            rb.linearVelocity = new Vector3(clampedHorizontal.x, rb.linearVelocity.y, clampedHorizontal.z);
+        }
+    }
+
+    private void ApplyJump()
+    {
+        if (jumpPressed && isGrounded)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+        }
+
+        jumpPressed = false;
+    }
+
+    void OnDrawGizmos()
+    {
+        CapsuleCollider col = capsuleCollider;
+        if (col == null) col = GetComponent<CapsuleCollider>();
+        if (col == null) return;
+
+        float height = col.height;
+        float radius = col.radius;
+        
+        Vector3 origin = transform.position + Vector3.down * (height * 0.5f - radius - 0.01f);
+        Vector3 end = origin + Vector3.down * groundCheckDistance;
+        
+        Gizmos.color = isGrounded ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(origin, radius * 0.9f);
+        Gizmos.DrawWireSphere(end, radius * 0.9f);
         Gizmos.DrawLine(origin, end);
-
-        // If grounded, show hit point & normal
-        bool grounded = Physics.SphereCast(origin, radius, Vector3.down, out RaycastHit hit, maxDist, groundMask);
-        if (grounded)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(hit.point, 0.1f);
-            Gizmos.DrawLine(hit.point, hit.point + hit.normal * 0.5f);
-        }
     }
 }

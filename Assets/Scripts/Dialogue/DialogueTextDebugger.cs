@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Text;
 using System.Globalization;
 
@@ -6,7 +7,6 @@ public class DialogueTextDebugger : MonoBehaviour
 {
     [Header("Debug Settings")]
     public bool enableDebug = true;
-    public KeyCode debugKey = KeyCode.F1;
     
     [Header("Test Text")]
     [TextArea(3, 10)]
@@ -14,9 +14,13 @@ public class DialogueTextDebugger : MonoBehaviour
     
     private void Update()
     {
-        if (enableDebug && Input.GetKeyDown(debugKey))
+        if (enableDebug)
         {
-            DebugText(testText);
+            var keyboard = Keyboard.current;
+            if (keyboard != null && keyboard.f1Key.wasPressedThisFrame)
+            {
+                DebugText(testText);
+            }
         }
     }
     

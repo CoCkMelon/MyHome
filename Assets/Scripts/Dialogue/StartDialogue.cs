@@ -16,13 +16,28 @@ public class StartDialogue : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(dialogueScenePath))
         {
-            DialogueManager.Instance.LoadAndStartScene(dialogueScenePath);
+            if (DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.LoadAndStartScene(dialogueScenePath);
+            }
+            else
+            {
+                Debug.LogError("StartDialogue: DialogueManager.Instance is null!");
+            }
         }
         if (!string.IsNullOrEmpty(triggerId))
         {
-            TriggerManager.Instance.Trigger(triggerId, null);
+            if (TriggerManager.Instance != null)
+            {
+                TriggerManager.Instance.Trigger(triggerId, null);
+            }
+            else
+            {
+                Debug.LogError("StartDialogue: TriggerManager.Instance is null!");
+            }
         }
-        if (destroyOnTrigger) {
+        if (destroyOnTrigger)
+        {
             Destroy(gameObject);
         }
     }

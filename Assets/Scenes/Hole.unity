@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 444671602}
   - component: {fileID: 444671605}
   - component: {fileID: 444671606}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -449,10 +449,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118c3935652dd1cd692968b93d4c48f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraRotation
-  sensitivity: 20
+  sensitivity: 0.1
   minPitch: -80
   maxPitch: 80
   invertY: 0
+  enableBobbing: 1
+  bobAmountY: 0.04
+  bobAmountX: 0.02
+  bobSpeed: 7
+  bobSpeedThreshold: 1
+  playerRigidbody: {fileID: 1614905825}
 --- !u!114 &444671606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1238,7 +1244,7 @@ GameObject:
   - component: {fileID: 1229301117}
   - component: {fileID: 1229301116}
   - component: {fileID: 1229301115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1689,7 +1695,7 @@ GameObject:
   - component: {fileID: 1614905825}
   - component: {fileID: 1614905830}
   - component: {fileID: 1614905831}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1720,7 +1726,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &1614905826
@@ -1812,7 +1818,7 @@ Transform:
   m_GameObject: {fileID: 1614905824}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.17832, y: -6.07, z: -0.43455}
+  m_LocalPosition: {x: -4.67, y: -8.24, z: -0.43455}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1831,49 +1837,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c5a929513a720a5a18c9f091e77467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  strength: 100
-  jumpForce: 250
-  groundDistance: 0.73
+  moveSpeed: 6
+  acceleration: 50
+  deceleration: 30
+  maxSpeed: 10
+  jumpForce: 8
+  groundCheckDistance: 0.1
   groundMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
+  airControl: 0.3
+  gravity: 20
   cameraTransform: {fileID: 444671604}
-  maxSpeed: 10
-  friction: 0.05
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.6175641
-      value: 0.7812454
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  gravity: 1
 --- !u!114 &1614905831
 MonoBehaviour:
   m_ObjectHideFlags: 0

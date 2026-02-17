@@ -9,10 +9,6 @@ public class DialogueExample : MonoBehaviour
     [Header("Resources Dialogue (Runtime)")]
     public string resourcesPath = "dialogue/example_dialogue";
     
-    [Header("Test Controls")]
-    public KeyCode testYamlFile = KeyCode.Alpha1;
-    public KeyCode testResources = KeyCode.Alpha2;
-    
     void Update()
     {
         var keyboard = Keyboard.current;
@@ -61,12 +57,12 @@ public class DialogueExample : MonoBehaviour
     {
         GUI.Box(new Rect(10, 120, 300, 100), "Dialogue Testing");
         
-        if (GUI.Button(new Rect(20, 150, 120, 20), $"YAML File ({testYamlFile})"))
+        if (GUI.Button(new Rect(20, 150, 120, 20), "YAML File (1)"))
         {
             TestYamlFileDialogue();
         }
         
-        if (GUI.Button(new Rect(150, 150, 120, 20), $"Resources ({testResources})"))
+        if (GUI.Button(new Rect(150, 150, 120, 20), "Resources (2)"))
         {
             TestResourcesDialogue();
         }

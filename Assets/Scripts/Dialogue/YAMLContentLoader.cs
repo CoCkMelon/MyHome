@@ -14,6 +14,10 @@ public class RouteContent
 
 public class YAMLContentLoader : MonoBehaviour
 {
+    [Header("Route Files")]
+    [Tooltip("List of YAML route files to load from Assets folder")]
+    public List<string> routePaths = new List<string>();
+    
     private Dictionary<string, RouteContent> routeContents = new Dictionary<string, RouteContent>();
 
     void Start()
@@ -23,19 +27,45 @@ public class YAMLContentLoader : MonoBehaviour
 
     void LoadAllRoutes()
     {
-        LoadRoute("StoryRoutes/VillageEntrance.yaml");
-        LoadRoute("StoryRoutes/VillageCenter.yaml");
-        LoadRoute("StoryRoutes/ForestPath.yaml");
+        foreach (var path in routePaths)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                LoadRoute(path);
+            }
+        }
     }
 
     void LoadRoute(string path)
     {
-        var yaml = File.ReadAllText(Application.dataPath + "/" + path);
-        var deserializer = new DeserializerBuilder()
-            .Build();
+        #if UNITY_EDITOR
+        string fullPath = Application.dataPath + "/" + path;
+        
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogWarning($"YAMLContentLoader: Route file not found: {fullPath}");
+            return;
+        }
+        
+        try
+        {
+            var yaml = File.ReadAllText(fullPath);
+            var deserializer = new DeserializerBuilder()
+                .Build();
 
-        RouteContent loadedContent = deserializer.Deserialize<RouteContent>(yaml);
-        routeContents[loadedContent.place] = loadedContent;
+            RouteContent loadedContent = deserializer.Deserialize<RouteContent>(yaml);
+            if (loadedContent != null && !string.IsNullOrEmpty(loadedContent.place))
+            {
+                routeContents[loadedContent.place] = loadedContent;
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"YAMLContentLoader: Failed to load route '{path}': {e.Message}");
+        }
+        #else
+        Debug.LogWarning($"YAMLContentLoader: File loading not supported in builds. Use embedded data instead.");
+        #endif
     }
 
     public RouteContent GetContent(string place)
