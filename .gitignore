@@ -94,3 +94,5 @@ Assets/App/Data/MoneyData.json
 *.bak
 
 .fuse_*
+
+Assets/_Recovery/
