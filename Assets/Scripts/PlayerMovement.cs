@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Physics")]
     public float airControl = 0.3f;
     public float gravity = 20f;
-    public float maxSlopeAngle = 45f;
 
     [Header("References")]
     public Transform cameraTransform;
@@ -28,8 +27,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool jumpPressed;
     private bool isGrounded;
-    private bool isOnSlope;
-    private Vector3 groundNormal;
     private float capsuleRadius;
     private float capsuleHeight;
 
@@ -89,9 +86,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGrounded()
     {
-        groundNormal = Vector3.up;
-        isOnSlope = false;
-        
         if (capsuleCollider == null)
         {
             // Fallback raycast if no capsule collider
@@ -103,23 +97,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 origin = transform.position + Vector3.down * (capsuleHeight * 0.5f - capsuleRadius - 0.01f);
         
         // Use SphereCast going down - won't detect player's own collider
-        RaycastHit hit;
         isGrounded = Physics.SphereCast(
             origin,
             capsuleRadius * 0.9f,  // Slightly smaller to avoid edge cases
             Vector3.down,
-            out hit,
+            out RaycastHit hit,
             groundCheckDistance,
             groundMask,
             QueryTriggerInteraction.Ignore
         );
-        
-        if (isGrounded)
-        {
-            groundNormal = hit.normal;
-            float slopeAngle = Vector3.Angle(Vector3.up, groundNormal);
-            isOnSlope = slopeAngle > 0.1f && slopeAngle <= maxSlopeAngle;
-        }
     }
 
     private void ApplyMovement()
@@ -134,13 +120,6 @@ public class PlayerMovement : MonoBehaviour
         right.Normalize();
 
         Vector3 targetDirection = (forward * moveInput.y + right * moveInput.x).normalized;
-        
-        // Project movement onto slope if on one
-        if (isOnSlope && isGrounded)
-        {
-            targetDirection = Vector3.ProjectOnPlane(targetDirection, groundNormal).normalized;
-        }
-        
         Vector3 currentHorizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         float currentControl = isGrounded ? 1f : airControl;
@@ -155,29 +134,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (isGrounded)
         {
-            // When stationary on a slope, kill all velocity to prevent sliding
-            if (isOnSlope)
+            Vector3 decel = -currentHorizontalVelocity.normalized * deceleration * Time.fixedDeltaTime;
+            if (decel.magnitude > currentHorizontalVelocity.magnitude)
             {
-                rb.linearVelocity = Vector3.zero;
+                decel = -currentHorizontalVelocity;
             }
-            else
-            {
-                // Normal ground deceleration
-                Vector3 decel = -currentHorizontalVelocity.normalized * deceleration * Time.fixedDeltaTime;
-                if (decel.magnitude > currentHorizontalVelocity.magnitude)
-                {
-                    decel = -currentHorizontalVelocity;
-                }
-                rb.AddForce(decel, ForceMode.VelocityChange);
-            }
-        }
-        
-        // Prevent sliding down slopes even while moving
-        if (isGrounded && isOnSlope && !jumpPressed)
-        {
-            // Cancel out the gravity component along the slope
-            Vector3 gravityProjection = Vector3.Project(Physics.gravity, groundNormal);
-            rb.AddForce(-Physics.gravity + gravityProjection, ForceMode.Acceleration);
+            rb.AddForce(decel, ForceMode.VelocityChange);
         }
 
         Vector3 clampedHorizontal = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
