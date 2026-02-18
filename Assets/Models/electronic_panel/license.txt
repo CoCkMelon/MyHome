@@ -1,0 +1,11 @@
+Model Information:
+* title:	electronic panel
+* source:	https://sketchfab.com/3d-models/electronic-panel-1595316cf90847678d8d3d49acdd8824
+* author:	aksinia0987 (https://sketchfab.com/aksinia0987)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "electronic panel" (https://sketchfab.com/3d-models/electronic-panel-1595316cf90847678d8d3d49acdd8824) by aksinia0987 (https://sketchfab.com/aksinia0987) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
