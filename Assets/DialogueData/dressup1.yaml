@@ -1,0 +1,5 @@
+title: "Morning Bathroom"
+lines:
+  - speaker: "Momo"
+    text: "I'll dress up as usual"
+    trigger: "dressup1"

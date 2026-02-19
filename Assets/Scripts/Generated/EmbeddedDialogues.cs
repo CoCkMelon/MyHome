@@ -19,6 +19,8 @@ namespace DialogueSystem
 
         public const string Computer1 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Let's start to work.\"\n  -\n    trigger: \"cave1\"\n";
 
+        public const string Dressup1 = "title: \"Morning Bathroom\"\nlines:\n  - speaker: \"Momo\"\n    text: \"I'll dress up as usual\"\n    trigger: \"dressup1\"\n";
+
         public const string MuseumEntrance = "title: \"Museum Entrance\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Stop! The museum is closed. What are you doing here?\"\n    \n  - speaker: \"Narrator\"\n    text: \"You need to choose how to respond to the guard.\"\n    choices_from_story_manager: true\n    story_location: \"MuseumEntrance\"\n    \n  - id: \"sneak_success\"\n    speaker: \"Narrator\"\n    text: \"You successfully sneak past the guard into the museum.\"\n    trigger: \"enter_museum\"\n    \n  - id: \"caught\"\n    speaker: \"Guard\"\n    text: \"Nice try! You're coming with me.\"\n    trigger: \"game_over\"\n";
 
         public const string TestDialogue = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Hey, you're not supposed to be here!\"\n    \n  - speaker: \"Player\"\n    text: \"I was just leaving leaves...\"\n    trigger: \"start_stealth_mode\"\n\n  - speaker: \"Guard\"\n    text: \"Come with me.\"\n";
@@ -30,6 +32,7 @@ namespace DialogueSystem
             ["bed1"] = Bed1,
             ["cave_end1"] = CaveEnd1,
             ["computer1"] = Computer1,
+            ["dressup1"] = Dressup1,
             ["museum_entrance"] = MuseumEntrance,
             ["test_dialogue"] = TestDialogue
         };

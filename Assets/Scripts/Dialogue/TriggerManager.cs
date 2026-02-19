@@ -40,6 +40,7 @@ public class TriggerManager : MonoBehaviour
     public GameObject KitchenT1;
     public GameObject ComputerT1;
     public GameObject BedT1;
+    public GameObject ClosetT1;
     
     private void Awake() 
     {
@@ -103,6 +104,9 @@ public class TriggerManager : MonoBehaviour
             //     UnlockPlayerAbility(line.ability_name);
             //     break;
             case "bathroom1":
+                ClosetT1.SetActive(true);
+                break;
+            case "dressup1":
                 KitchenT1.SetActive(true);
                 break;
             case "kitchen1":

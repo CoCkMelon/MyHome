@@ -161,7 +161,7 @@ public class DialogueUIController : MonoBehaviour
         // Validate the dialogue line first
         if (!ValidateDialogueLine(line))
         {
-            Debug.LogError("Invalid dialogue line, cannot display!");
+            // Debug.LogError("Invalid dialogue line, cannot display!");
             return;
         }
         
