@@ -15,14 +15,12 @@ public class DialogueTrigger : MonoBehaviour
     }
     void TryLoadDialogue()
     {
-        bool shouldDestroy = false;
 
         if (!string.IsNullOrEmpty(dialogueScenePath))
         {
             if (DialogueManager.Instance != null)
             {
                 DialogueManager.Instance.LoadAndStartScene(dialogueScenePath);
-                shouldDestroy = true;
             }
             else
             {
@@ -40,7 +38,7 @@ public class DialogueTrigger : MonoBehaviour
                 Debug.LogError("DialogueTrigger: TriggerManager.Instance is null!");
             }
         }
-        if (shouldDestroy && destroyOnTrigger)
+        if (destroyOnTrigger)
         {
             Destroy(gameObject);
         }

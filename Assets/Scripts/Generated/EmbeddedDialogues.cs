@@ -9,12 +9,27 @@ namespace DialogueSystem
 {
     public static class EmbeddedDialogues
     {
+        public const string Bathroom1 = "title: \"Morning Bathroom\"\nlines:\n  - id: \"start\"\n    speaker: \"Momo\"\n    text: \"So here is start of the day.\"\n    animation: \"energetic\"\n  - speaker: \"\"\n    text: \"Momo took toilet, shower, and brushed teeth.\"\n    trigger: \"bathroom1\"\n";
+
+        public const string Bed0 = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Momo\"\n    text: \"Mmmyawn. Morning aready?\"\n  - speaker: \"Momo\"\n    text: \"Need to brush teeth.\"\n\n";
+
+        public const string Bed1 = "title: \"Test Dialogue\"\nlines:\n  - speaker: \"Momo\"\n    text: \"It's bedtime.\"\n";
+
+        public const string CaveEnd1 = "title: \"CaveEnd1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Yay, I delivered sample to the exit area! I worked enough for today.\"\n  -\n    trigger: \"cave_end1\"\n";
+
+        public const string Computer1 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Let's start to work.\"\n  -\n    trigger: \"cave1\"\n";
+
         public const string MuseumEntrance = "title: \"Museum Entrance\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Stop! The museum is closed. What are you doing here?\"\n    \n  - speaker: \"Narrator\"\n    text: \"You need to choose how to respond to the guard.\"\n    choices_from_story_manager: true\n    story_location: \"MuseumEntrance\"\n    \n  - id: \"sneak_success\"\n    speaker: \"Narrator\"\n    text: \"You successfully sneak past the guard into the museum.\"\n    trigger: \"enter_museum\"\n    \n  - id: \"caught\"\n    speaker: \"Guard\"\n    text: \"Nice try! You're coming with me.\"\n    trigger: \"game_over\"\n";
 
         public const string TestDialogue = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Hey, you're not supposed to be here!\"\n    \n  - speaker: \"Player\"\n    text: \"I was just leaving leaves...\"\n    trigger: \"start_stealth_mode\"\n\n  - speaker: \"Guard\"\n    text: \"Come with me.\"\n";
 
         private static readonly Dictionary<string, string> _dialogues = new Dictionary<string, string>
         {
+            ["bathroom1"] = Bathroom1,
+            ["bed0"] = Bed0,
+            ["bed1"] = Bed1,
+            ["cave_end1"] = CaveEnd1,
+            ["computer1"] = Computer1,
             ["museum_entrance"] = MuseumEntrance,
             ["test_dialogue"] = TestDialogue
         };

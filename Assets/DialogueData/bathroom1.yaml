@@ -1,0 +1,9 @@
+title: "Morning Bathroom"
+lines:
+  - id: "start"
+    speaker: "Momo"
+    text: "So here is start of the day."
+    animation: "energetic"
+  - speaker: ""
+    text: "Momo took toilet, shower, and brushed teeth."
+    trigger: "bathroom1"

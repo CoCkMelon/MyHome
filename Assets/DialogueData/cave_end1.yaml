@@ -1,0 +1,6 @@
+title: "CaveEnd1"
+lines:
+  - speaker: "Momo"
+    text: "Yay, I delivered sample to the exit area! I worked enough for today."
+  -
+    trigger: "cave_end1"

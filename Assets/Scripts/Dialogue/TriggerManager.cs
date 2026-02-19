@@ -36,6 +36,10 @@ public class TriggerManager : MonoBehaviour
     // Example:
     // private int currentLevel = 1;
     // private bool isInCombat = false;
+
+    public GameObject KitchenT1;
+    public GameObject ComputerT1;
+    public GameObject BedT1;
     
     private void Awake() 
     {
@@ -98,6 +102,21 @@ public class TriggerManager : MonoBehaviour
             // case "unlock_ability":
             //     UnlockPlayerAbility(line.ability_name);
             //     break;
+            case "bathroom1":
+                KitchenT1.SetActive(true);
+                break;
+            case "kitchen1":
+                ComputerT1.SetActive(true);
+                break;
+            case "bed1":
+                BedT1.SetActive(true);
+                break;
+            case "cave1":
+                SceneManager.LoadScene("Cave");
+                break;
+            case "cave_end1":
+                SceneManager.LoadScene("Hole");
+                break;
             case "loose_end":
                 SceneManager.LoadScene(0);
                 break;

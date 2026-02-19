@@ -1,0 +1,8 @@
+title: "Test Dialogue"
+lines:
+  - id: "start"
+    speaker: "Momo"
+    text: "Mmmyawn. Morning aready?"
+  - speaker: "Momo"
+    text: "Need to brush teeth."
+
