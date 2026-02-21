@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
+    public float crouchSpeed = 2.5f; // Speed while crouching
     public float acceleration = 50f;
     public float deceleration = 30f;
     public float maxSpeed = 8f;
@@ -19,6 +20,12 @@ public class PlayerMovement : MonoBehaviour
     public float airControl = 0.3f;
     public float gravity = 20f;
 
+    [Header("Crouch Settings")]
+    public float crouchHeight = 1.0f; // Height of capsule when crouching
+
+    [Header("Animation")]
+    public Animator animator; // Drag your Animator component here
+
     [Header("References")]
     public Transform cameraTransform;
 
@@ -27,8 +34,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool jumpPressed;
     private bool isGrounded;
+    private bool isCrouching = false;
+
     private float capsuleRadius;
-    private float capsuleHeight;
+    private float originalCapsuleHeight;
+    private Vector3 originalCapsuleCenter;
 
     void Start()
     {
@@ -38,7 +48,9 @@ public class PlayerMovement : MonoBehaviour
         if (capsuleCollider != null)
         {
             capsuleRadius = capsuleCollider.radius;
-            capsuleHeight = capsuleCollider.height;
+            // Store original values to restore them when uncrouching
+            originalCapsuleHeight = capsuleCollider.height;
+            originalCapsuleCenter = capsuleCollider.center;
         }
 
         if (cameraTransform == null)
@@ -55,6 +67,8 @@ public class PlayerMovement : MonoBehaviour
     {
         ReadInput();
         CheckGrounded();
+        HandleCrouch();
+        UpdateAnimator();
     }
 
     void FixedUpdate()
@@ -84,22 +98,62 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HandleCrouch()
+    {
+        // Use Left Control (leftCtrlKey) to toggle crouch
+        bool wantToCrouch = Keyboard.current.ctrlKey.isPressed
+        || Keyboard.current.cKey.isPressed;
+
+        if (wantToCrouch != isCrouching)
+        {
+            if (wantToCrouch)
+            {
+                // Enter Crouch
+                isCrouching = true;
+                capsuleCollider.height = crouchHeight;
+                capsuleCollider.center = new Vector3(0, crouchHeight / 2, 0);
+            }
+            else
+            {
+                // Exit Crouch (Simple restore)
+                // Note: In a full game, you should check for ceilings here to prevent standing up inside walls
+                isCrouching = false;
+                capsuleCollider.height = originalCapsuleHeight;
+                capsuleCollider.center = originalCapsuleCenter;
+            }
+        }
+    }
+
+    private void UpdateAnimator()
+    {
+        if (animator == null) return;
+
+        // Calculate horizontal speed for animation
+        float speed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude;
+
+        // Send parameters to Animator
+        // 'Speed' should be a float parameter in your Animator
+        animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+
+        // 'IsGrounded' should be a bool parameter
+        animator.SetBool("IsGrounded", isGrounded);
+    }
+
     private void CheckGrounded()
     {
         if (capsuleCollider == null)
         {
-            // Fallback raycast if no capsule collider
             isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.1f, groundMask);
             return;
         }
 
-        // Cast a small sphere downward from bottom of capsule
-        Vector3 origin = transform.position + Vector3.down * (capsuleHeight * 0.5f - capsuleRadius - 0.01f);
-        
-        // Use SphereCast going down - won't detect player's own collider
+        // Use the CURRENT height of the collider (handles crouching dynamically)
+        float currentHeight = capsuleCollider.height;
+        Vector3 origin = transform.position + Vector3.down * (currentHeight * 0.5f - capsuleRadius - 0.01f);
+
         isGrounded = Physics.SphereCast(
             origin,
-            capsuleRadius * 0.9f,  // Slightly smaller to avoid edge cases
+            capsuleRadius * 0.9f,
             Vector3.down,
             out RaycastHit hit,
             groundCheckDistance,
@@ -112,22 +166,34 @@ public class PlayerMovement : MonoBehaviour
     {
         if (cameraTransform == null) return;
 
-        Vector3 forward = cameraTransform.forward;
-        Vector3 right = cameraTransform.right;
+        // Use player's rotation instead of camera's rotation
+        // This ensures movement is based on yaw only, not pitch
+
+        Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
+
         forward.y = 0f;
         right.y = 0f;
         forward.Normalize();
         right.Normalize();
 
         Vector3 targetDirection = (forward * moveInput.y + right * moveInput.x).normalized;
+
+        // Use crouch speed if currently crouching, otherwise normal speed
+        float currentSpeedLimit = isCrouching ? crouchSpeed : moveSpeed;
+
         Vector3 currentHorizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         float currentControl = isGrounded ? 1f : airControl;
 
         if (targetDirection.magnitude > 0.1f)
         {
-            Vector3 targetVelocity = targetDirection * moveSpeed;
+            Vector3 targetVelocity = targetDirection * currentSpeedLimit;
             Vector3 velocityChange = (targetVelocity - currentHorizontalVelocity) * currentControl;
+
+            // Reduce acceleration slightly when crouching
+            if (isCrouching) velocityChange *= 0.5f;
+
             velocityChange = Vector3.ClampMagnitude(velocityChange, acceleration * Time.fixedDeltaTime);
 
             rb.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -143,16 +209,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 clampedHorizontal = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (clampedHorizontal.magnitude > maxSpeed)
+        if (clampedHorizontal.magnitude > currentSpeedLimit)
         {
-            clampedHorizontal = clampedHorizontal.normalized * maxSpeed;
+            clampedHorizontal = clampedHorizontal.normalized * currentSpeedLimit;
             rb.linearVelocity = new Vector3(clampedHorizontal.x, rb.linearVelocity.y, clampedHorizontal.z);
         }
     }
 
     private void ApplyJump()
     {
-        if (jumpPressed && isGrounded)
+        // Prevent jumping if crouching (optional)
+        if (jumpPressed && isGrounded && !isCrouching)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
@@ -163,16 +230,16 @@ public class PlayerMovement : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        CapsuleCollider col = capsuleCollider;
-        if (col == null) col = GetComponent<CapsuleCollider>();
+        CapsuleCollider col = GetComponent<CapsuleCollider>();
         if (col == null) return;
 
+        // Use dynamic height in Gizmos to visualize crouch correctly
         float height = col.height;
         float radius = col.radius;
-        
+
         Vector3 origin = transform.position + Vector3.down * (height * 0.5f - radius - 0.01f);
         Vector3 end = origin + Vector3.down * groundCheckDistance;
-        
+
         Gizmos.color = isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(origin, radius * 0.9f);
         Gizmos.DrawWireSphere(end, radius * 0.9f);

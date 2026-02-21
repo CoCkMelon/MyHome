@@ -9,7 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 804e1ce4c496647cfa3f1a1134187c71, type: 3}
   _removeEmptyRootObjects: 1
-  _scaleFactor: 1
+  _scaleFactor: 2
   _deduplicateResources: 0
   _deduplicatedStatistics:
     meshCountBefore: 0
@@ -28,7 +28,7 @@ ScriptedImporter:
     _multiplier: 1
   _importNormals: 0
   _importTangents: 0
-  _importCamera: 2
+  _importCamera: 0
   _importAnimations: 1
   _mecanimHumanoidFlip: 0
   _addAnimatorComponent: 0
@@ -39,7 +39,7 @@ ScriptedImporter:
   _texturesReadWriteEnabled: 1
   _generateMipMaps: 1
   _useSceneNameIdentifier: 0
-  _textureCompression: -50
+  _textureCompression: 100
   _gltfAsset: '<b>Generator: </b>Khronos glTF Blender I/O v1.5.17
 
     <b>Version:
