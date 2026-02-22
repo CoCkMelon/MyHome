@@ -47,6 +47,7 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           buildName: ${{ env.UNITY_PROJECT_NAME }}
+          allowDirtyBuild: true
 
       - name: Change Build Directory Ownership
         run: |
@@ -59,6 +60,7 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
+          allowDirtyBuild: true
           name: "${{ env.UNITY_PROJECT_NAME }}-${{ matrix.targetPlatform }}-${{ env.BUILD_VERSION }}"
           path: "build/${{ env.UNITY_PROJECT_NAME }}-${{ matrix.targetPlatform }}-${{ env.BUILD_VERSION }}"
 
@@ -70,10 +72,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+          allowDirtyBuild: true
 
       - name: Cache Unity Library
         uses: actions/cache@v3
         with:
+          allowDirtyBuild: true
           path: Library
           key: Library-Windows64-${{ hashFiles('Assets/**','Packages/**','ProjectSettings/**') }}
           restore-keys: |
@@ -87,6 +91,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          allowDirtyBuild: true
           targetPlatform: StandaloneWindows64
           buildName: ${{ env.UNITY_PROJECT_NAME }}
 
@@ -125,6 +130,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          allowDirtyBuild: true
           targetPlatform: StandaloneOSX
           buildName: ${{ env.UNITY_PROJECT_NAME }}
 
