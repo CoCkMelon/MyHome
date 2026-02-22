@@ -46,6 +46,7 @@ jobs:
           KEY_ALIAS_PASS: ${{ secrets.KEY_ALIAS_PASS }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
+          extraArgs: -disable-dynamic-compilation -script-compilation-disable-async- completion
           buildName: ${{ env.UNITY_PROJECT_NAME }}
           allowDirtyBuild: true
 
@@ -93,6 +94,7 @@ jobs:
         with:
           allowDirtyBuild: true
           targetPlatform: StandaloneWindows64
+          extraArgs: -disable-dynamic-compilation -script-compilation-disable-async-completion
           buildName: ${{ env.UNITY_PROJECT_NAME }}
 
       - name: Organize Build Artifacts
@@ -132,6 +134,7 @@ jobs:
         with:
           allowDirtyBuild: true
           targetPlatform: StandaloneOSX
+          extraArgs: -disable-dynamic-compilation -script-compilation-disable-async-completion
           buildName: ${{ env.UNITY_PROJECT_NAME }}
 
       - name: Organize Build Artifacts
