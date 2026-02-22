@@ -1,0 +1,6 @@
+title: "Computer1"
+lines:
+  - speaker: "Momo"
+    text: "Actually, I can work some more today."
+  -
+    trigger: "cave2"

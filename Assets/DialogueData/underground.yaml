@@ -1,0 +1,11 @@
+title: "Underground Place Light"
+lines:
+  - speaker: "Momo"
+    text: "Phew. When light appears it always becomes less scary."
+  - speaker: "Momo"
+    text: "So many dangers can exit in the dark."
+  - speaker: "Momo"
+    text: "I will need to place much more later."
+  - speaker: "Momo"
+    text: "Now I need to change air filters."
+    trigger: underground

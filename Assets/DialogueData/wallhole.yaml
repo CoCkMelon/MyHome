@@ -1,0 +1,9 @@
+title: "Wallhole"
+lines:
+  - speaker: "Momo"
+    text: "Don't worry, I won't get stuck while going into this hole."
+  - speaker: "Momo"
+    text: "Just don't forget to press Ctrl to crouch, operator of me."
+  - speaker: "Momo"
+    text: "Next thing to do is to place lightbulb in the end of unlit tunnel."
+    trigger: wallhole

@@ -1,0 +1,13 @@
+title: "Garbage"
+lines:
+  - speaker: "..."
+    text: "Momo took garbage."
+    trigger: garbage
+  - speaker: "Momo"
+    text: "Now let's go to hole in wall."
+  - speaker: "Momo"
+    text: "It took some time to make it."
+  - speaker: "Momo"
+    text: "I broken smartphone during that."
+  - speaker: "Momo"
+    text: "Avoid having it in pocket when using heavy instruments."

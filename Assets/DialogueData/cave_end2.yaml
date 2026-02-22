@@ -1,0 +1,8 @@
+title: "CaveEnd1"
+lines:
+  - speaker: "Momo"
+    text: "Phew, that was hard. Finally I led hovercraft to exit!"
+  - speaker: "Momo"
+    text: "The job is done, let's return and get the reward."
+  -
+    trigger: "cave_end2"

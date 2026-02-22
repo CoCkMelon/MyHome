@@ -11,19 +11,29 @@ namespace DialogueSystem
     {
         public const string Bathroom1 = "title: \"Morning Bathroom\"\nlines:\n  - id: \"start\"\n    speaker: \"Momo\"\n    text: \"So here is start of the day.\"\n    animation: \"energetic\"\n  - speaker: \"\"\n    text: \"Momo took toilet, shower, and brushed teeth.\"\n    trigger: \"bathroom1\"\n";
 
-        public const string Bed0 = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Momo\"\n    text: \"Mmmyawn. Morning aready?\"\n  - speaker: \"Momo\"\n    text: \"Need to brush teeth.\"\n\n";
+        public const string Bed0 = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Momo\"\n    text: \"Mmmyawn. Morning aready?\"\n  - speaker: \"Momo\"\n    text: \"Need to brush teeth.\"\n  - speaker: \"Momo\"\n    text: \"Wait. I can't control myself! All those movements aren't mine!\"\n  - speaker: \"Momo\"\n    text: \"I knew that one day it happens and they will make me remote controlled too!\"\n  - speaker: \"Momo\"\n    text: \"Operator, I should explain you that WASD controls, V change cam, Space jump.\"\n  - speaker: \"Momo\"\n    text: \"I'll use my imagination to show where to go with markers\"\n\n";
 
         public const string Bed1 = "title: \"Test Dialogue\"\nlines:\n  - speaker: \"Momo\"\n    text: \"It's bedtime.\"\n";
 
         public const string CaveEnd1 = "title: \"CaveEnd1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Yay, I delivered sample to the exit area! I worked enough for today.\"\n  -\n    trigger: \"cave_end1\"\n";
 
-        public const string Computer1 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Let's start to work.\"\n  -\n    trigger: \"cave1\"\n";
+        public const string CaveEnd2 = "title: \"CaveEnd1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Phew, that was hard. Finally I led hovercraft to exit!\"\n  - speaker: \"Momo\"\n    text: \"The job is done, let's return and get the reward.\"\n  -\n    trigger: \"cave_end2\"\n";
+
+        public const string Computer1 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Breakfast!\"\n  - speaker: \"Momo\"\n    text: \"Mmm, delicious carrots and lettuce.\"\n  - speaker: \"Momo\"\n    text: \"Chomp comp chomp\"\n  - speaker: \"Momo\"\n    text: \"Water is also refreshing.\"\n  - speaker: \"Momo\"\n    text: \"Ahh.\"\n  - speaker: \"Momo\"\n    text: \"Now some stretching.\"\n  - speaker: \"Momo\"\n    text: \"1 2 3 4 breathe\"\n  - speaker: \"Momo\"\n    text: \"Now bend spine. 1 2 3 4 5 6 7 8 9 10 enough.\"\n  - speaker: \"...\"\n    text: \"She did physical exercises for 1 hour.\"\n  - speaker: \"Momo\"\n    text: \"Let's start to work as RC hovercraft operator on PC.\"\n  -\n    trigger: \"cave1\"\n";
+
+        public const string Computer2 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Actually, I can work some more today.\"\n  -\n    trigger: \"cave2\"\n";
 
         public const string Dressup1 = "title: \"Morning Bathroom\"\nlines:\n  - speaker: \"Momo\"\n    text: \"I'll dress up as usual\"\n    trigger: \"dressup1\"\n";
+
+        public const string Garbage = "title: \"Garbage\"\nlines:\n  - speaker: \"...\"\n    text: \"Momo took garbage.\"\n    trigger: garbage\n  - speaker: \"Momo\"\n    text: \"Now let's go to hole in wall.\"\n  - speaker: \"Momo\"\n    text: \"It took some time to make it.\"\n  - speaker: \"Momo\"\n    text: \"I broken smartphone during that.\"\n  - speaker: \"Momo\"\n    text: \"Avoid having it in pocket when using heavy instruments.\"\n";
 
         public const string MuseumEntrance = "title: \"Museum Entrance\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Stop! The museum is closed. What are you doing here?\"\n    \n  - speaker: \"Narrator\"\n    text: \"You need to choose how to respond to the guard.\"\n    choices_from_story_manager: true\n    story_location: \"MuseumEntrance\"\n    \n  - id: \"sneak_success\"\n    speaker: \"Narrator\"\n    text: \"You successfully sneak past the guard into the museum.\"\n    trigger: \"enter_museum\"\n    \n  - id: \"caught\"\n    speaker: \"Guard\"\n    text: \"Nice try! You're coming with me.\"\n    trigger: \"game_over\"\n";
 
         public const string TestDialogue = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Hey, you're not supposed to be here!\"\n    \n  - speaker: \"Player\"\n    text: \"I was just leaving leaves...\"\n    trigger: \"start_stealth_mode\"\n\n  - speaker: \"Guard\"\n    text: \"Come with me.\"\n";
+
+        public const string Underground = "title: \"Underground Place Light\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Phew. When light appears it always becomes less scary.\"\n  - speaker: \"Momo\"\n    text: \"So many dangers can exit in the dark.\"\n  - speaker: \"Momo\"\n    text: \"I will need to place much more later.\"\n  - speaker: \"Momo\"\n    text: \"Now I need to change air filters.\"\n    trigger: underground\n";
+
+        public const string Wallhole = "title: \"Wallhole\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Don't worry, I won't get stuck while going into this hole.\"\n  - speaker: \"Momo\"\n    text: \"Just don't forget to press Ctrl to crouch, operator of me.\"\n  - speaker: \"Momo\"\n    text: \"Next thing to do is to place lightbulb in the end of unlit tunnel.\"\n    trigger: wallhole\n";
 
         private static readonly Dictionary<string, string> _dialogues = new Dictionary<string, string>
         {
@@ -31,10 +41,15 @@ namespace DialogueSystem
             ["bed0"] = Bed0,
             ["bed1"] = Bed1,
             ["cave_end1"] = CaveEnd1,
+            ["cave_end2"] = CaveEnd2,
             ["computer1"] = Computer1,
+            ["computer2"] = Computer2,
             ["dressup1"] = Dressup1,
+            ["garbage"] = Garbage,
             ["museum_entrance"] = MuseumEntrance,
-            ["test_dialogue"] = TestDialogue
+            ["test_dialogue"] = TestDialogue,
+            ["underground"] = Underground,
+            ["wallhole"] = Wallhole
         };
 
         public static string GetDialogue(string name)

@@ -41,7 +41,18 @@ public class TriggerManager : MonoBehaviour
     public GameObject ComputerT1;
     public GameObject BedT1;
     public GameObject ClosetT1;
-    
+    public GameObject GarbageT1;
+    public GameObject WallHoleT1;
+    public GameObject UndergroundT1;
+    public GameObject FiltersT1;
+    public GameObject ComputerT2;
+    public GameObject ExitT;
+
+
+    public Material newSkyboxMaterial;
+    public GameObject Terrain2;
+    public GameObject oldobj;
+
     private void Awake() 
     {
         if (Instance == null)
@@ -119,7 +130,38 @@ public class TriggerManager : MonoBehaviour
                 SceneManager.LoadScene("Cave");
                 break;
             case "cave_end1":
-                SceneManager.LoadScene("Hole");
+                SceneManager.LoadScene("Hole2");
+                break;
+            case "garbage":
+                WallHoleT1.SetActive(true);
+                break;
+            case "wallhole":
+                UndergroundT1.SetActive(true);
+                break;
+            case "underground":
+                FiltersT1.SetActive(true);
+                break;
+            case "filters":
+                ComputerT2.SetActive(true);
+                break;
+            case "cave2":
+                SceneManager.LoadScene("Cave2");
+                break;
+            case "sky":
+                Skybox camSkybox = Camera.main.GetComponent<Skybox>();
+
+                if (camSkybox == null)
+                {
+                    camSkybox = Camera.main.gameObject.AddComponent<Skybox>();
+                }
+
+                camSkybox.material = newSkyboxMaterial;
+                Camera.main.clearFlags = CameraClearFlags.Skybox;
+                Terrain2.SetActive(true);
+                oldobj.SetActive(false);
+                break;
+            case "cave_end2":
+                SceneManager.LoadScene("Hole3");
                 break;
             case "loose_end":
                 SceneManager.LoadScene(0);
