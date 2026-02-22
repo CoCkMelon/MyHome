@@ -21,7 +21,9 @@ namespace DialogueSystem
 
         public const string Computer1 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Breakfast!\"\n  - speaker: \"Momo\"\n    text: \"Mmm, delicious carrots and lettuce.\"\n  - speaker: \"Momo\"\n    text: \"Chomp comp chomp\"\n  - speaker: \"Momo\"\n    text: \"Water is also refreshing.\"\n  - speaker: \"Momo\"\n    text: \"Ahh.\"\n  - speaker: \"Momo\"\n    text: \"Now some stretching.\"\n  - speaker: \"Momo\"\n    text: \"1 2 3 4 breathe\"\n  - speaker: \"Momo\"\n    text: \"Now bend spine. 1 2 3 4 5 6 7 8 9 10 enough.\"\n  - speaker: \"...\"\n    text: \"She did physical exercises for 1 hour.\"\n  - speaker: \"Momo\"\n    text: \"Let's start to work as RC hovercraft operator on PC.\"\n  -\n    trigger: \"cave1\"\n";
 
-        public const string Computer2 = "title: \"Computer1\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Actually, I can work some more today.\"\n  -\n    trigger: \"cave2\"\n";
+        public const string Computer2 = "title: \"Computer2\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Actually, I can work some more today.\"\n  -\n    trigger: \"cave2\"\n";
+
+        public const string Computer3 = "title: \"Computer2\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Yay, I got rewarded for extra work!\"\n  -\n    trigger: \"exit\"\n";
 
         public const string Dressup1 = "title: \"Morning Bathroom\"\nlines:\n  - speaker: \"Momo\"\n    text: \"I'll dress up as usual\"\n    trigger: \"dressup1\"\n";
 
@@ -32,6 +34,8 @@ namespace DialogueSystem
         public const string TestDialogue = "title: \"Test Dialogue\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Hey, you're not supposed to be here!\"\n    \n  - speaker: \"Player\"\n    text: \"I was just leaving leaves...\"\n    trigger: \"start_stealth_mode\"\n\n  - speaker: \"Guard\"\n    text: \"Come with me.\"\n";
 
         public const string Underground = "title: \"Underground Place Light\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Phew. When light appears it always becomes less scary.\"\n  - speaker: \"Momo\"\n    text: \"So many dangers can exit in the dark.\"\n  - speaker: \"Momo\"\n    text: \"I will need to place much more later.\"\n  - speaker: \"Momo\"\n    text: \"Now I need to change air filters.\"\n    trigger: underground\n";
+
+        public const string Unfinished = "title: \"Exit\"\nlines:\n  - speaker: \"Momo\"\n    text: \"So they gave me a vaccine for that infection that is in outside air.\"\n  - speaker: \"Momo\"\n    text: \"Here is instruction how to use it. So I should inject it under my skin using syringe.\"\n    trigger: \"remove thing\"\n  - speaker: \"...\"\n    text: \"Momo took vaccine. 2 weeks passed.\"\n  - speaker: \"Momo\"\n    text: \"So finally I can go outside! But there is nothing to do in dead world. I already have a good place to live.\"\n  - speaker: \"Developer\"\n    text: \"So there was supposed to be animation of doors. Cleaning up everything to remove dirt. Multiple endings depending whether you clean things or not. And scary things. After 10 years she would find a child on underwater river while operating hovercraft and deliver it to her home to find parents, who was killed. And then raise her.\"\n  - speaker: \"Developer\"\n    text: \"Or break vault and use it just as burrow and go outside to live, which would not kill her because trace amounts of infection and microbiome of dirt developed immunity and reduced probability of taking other microbes.\"\n  - speaker: \"Developer\"\n    text: \"That's it. Thanks for playing.\"\n";
 
         public const string Wallhole = "title: \"Wallhole\"\nlines:\n  - speaker: \"Momo\"\n    text: \"Don't worry, I won't get stuck while going into this hole.\"\n  - speaker: \"Momo\"\n    text: \"Just don't forget to press Ctrl to crouch, operator of me.\"\n  - speaker: \"Momo\"\n    text: \"Next thing to do is to place lightbulb in the end of unlit tunnel.\"\n    trigger: wallhole\n";
 
@@ -44,11 +48,13 @@ namespace DialogueSystem
             ["cave_end2"] = CaveEnd2,
             ["computer1"] = Computer1,
             ["computer2"] = Computer2,
+            ["computer3"] = Computer3,
             ["dressup1"] = Dressup1,
             ["garbage"] = Garbage,
             ["museum_entrance"] = MuseumEntrance,
             ["test_dialogue"] = TestDialogue,
             ["underground"] = Underground,
+            ["unfinished"] = Unfinished,
             ["wallhole"] = Wallhole
         };
 

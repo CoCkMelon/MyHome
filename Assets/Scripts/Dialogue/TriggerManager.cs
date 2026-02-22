@@ -130,7 +130,7 @@ public class TriggerManager : MonoBehaviour
                 SceneManager.LoadScene("Cave");
                 break;
             case "cave_end1":
-                SceneManager.LoadScene("Hole2");
+                SceneManager.LoadScene("Hole 1");
                 break;
             case "garbage":
                 WallHoleT1.SetActive(true);
@@ -145,7 +145,7 @@ public class TriggerManager : MonoBehaviour
                 ComputerT2.SetActive(true);
                 break;
             case "cave2":
-                SceneManager.LoadScene("Cave2");
+                SceneManager.LoadScene("Cave 2");
                 break;
             case "sky":
                 Skybox camSkybox = Camera.main.GetComponent<Skybox>();
@@ -161,7 +161,13 @@ public class TriggerManager : MonoBehaviour
                 oldobj.SetActive(false);
                 break;
             case "cave_end2":
-                SceneManager.LoadScene("Hole3");
+                SceneManager.LoadScene("Hole 2");
+                break;
+            case "exit":
+                ExitT.SetActive(true);
+                break;
+            case "remove thing":
+                Destroy(oldobj);
                 break;
             case "loose_end":
                 SceneManager.LoadScene(0);

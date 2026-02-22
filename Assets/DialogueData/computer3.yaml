@@ -1,0 +1,6 @@
+title: "Computer2"
+lines:
+  - speaker: "Momo"
+    text: "Yay, I got rewarded for extra work!"
+  -
+    trigger: "exit"
