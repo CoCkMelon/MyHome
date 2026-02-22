@@ -27,6 +27,8 @@ namespace DialogueSystem
 
         public const string Dressup1 = "title: \"Morning Bathroom\"\nlines:\n  - speaker: \"Momo\"\n    text: \"I'll dress up as usual\"\n    trigger: \"dressup1\"\n";
 
+        public const string Filters = "title: \"Filters\"\nlines:\n  - speaker: \"...\"\n    text: \"Momo replaced old air filters with new.\"\n    trigger: filters\n  - speaker: \"Momo\"\n    text: \"Maybe there is something else to do. Let's see.\"\n";
+
         public const string Garbage = "title: \"Garbage\"\nlines:\n  - speaker: \"...\"\n    text: \"Momo took garbage.\"\n    trigger: garbage\n  - speaker: \"Momo\"\n    text: \"Now let's go to hole in wall.\"\n  - speaker: \"Momo\"\n    text: \"It took some time to make it.\"\n  - speaker: \"Momo\"\n    text: \"I broken smartphone during that.\"\n  - speaker: \"Momo\"\n    text: \"Avoid having it in pocket when using heavy instruments.\"\n";
 
         public const string MuseumEntrance = "title: \"Museum Entrance\"\nlines:\n  - id: \"start\"\n    speaker: \"Guard\"\n    text: \"Stop! The museum is closed. What are you doing here?\"\n    \n  - speaker: \"Narrator\"\n    text: \"You need to choose how to respond to the guard.\"\n    choices_from_story_manager: true\n    story_location: \"MuseumEntrance\"\n    \n  - id: \"sneak_success\"\n    speaker: \"Narrator\"\n    text: \"You successfully sneak past the guard into the museum.\"\n    trigger: \"enter_museum\"\n    \n  - id: \"caught\"\n    speaker: \"Guard\"\n    text: \"Nice try! You're coming with me.\"\n    trigger: \"game_over\"\n";
@@ -50,6 +52,7 @@ namespace DialogueSystem
             ["computer2"] = Computer2,
             ["computer3"] = Computer3,
             ["dressup1"] = Dressup1,
+            ["filters"] = Filters,
             ["garbage"] = Garbage,
             ["museum_entrance"] = MuseumEntrance,
             ["test_dialogue"] = TestDialogue,

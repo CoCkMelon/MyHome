@@ -1,0 +1,7 @@
+title: "Filters"
+lines:
+  - speaker: "..."
+    text: "Momo replaced old air filters with new."
+    trigger: filters
+  - speaker: "Momo"
+    text: "Maybe there is something else to do. Let's see."
